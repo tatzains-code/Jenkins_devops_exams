@@ -35,3 +35,8 @@ resources:
   limits:
     cpu: 500m
     memory: 256Mi
+
+# If set, the pod waits until this PostgreSQL accepts connections before starting
+waitForDb: {}
+#  host: movie-db
+#  port: 5432

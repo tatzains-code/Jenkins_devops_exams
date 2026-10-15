@@ -8,3 +8,6 @@ secretEnv:
   - name: DATABASE_URI
     secretName: cast-db-credentials    # создаётся chart'ом postgres (release cast-db)
     key: DATABASE_URI
+
+waitForDb:
+  host: cast-db

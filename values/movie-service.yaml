@@ -12,3 +12,6 @@ secretEnv:
   - name: DATABASE_URI
     secretName: movie-db-credentials   # создаётся chart'ом postgres (release movie-db)
     key: DATABASE_URI
+
+waitForDb:
+  host: movie-db

@@ -15,6 +15,15 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
+      {{- with .Values.waitForDb }}
+      initContainers:
+        - name: wait-for-db
+          image: postgres:12.1-alpine
+          command:
+            - sh
+            - -c
+            - until pg_isready -h {{ .host }} -p {{ .port | default 5432 }}; do echo "waiting for {{ .host }}"; sleep 2; done
+      {{- end }}
       containers:
         - name: {{ .Release.Name }}
           image: "{{ required "image.repository is required" .Values.image.repository }}:{{ required "image.tag is required" .Values.image.tag }}"
