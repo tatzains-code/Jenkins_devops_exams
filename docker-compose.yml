@@ -12,7 +12,9 @@ services:
       - DATABASE_URI=postgresql://movie_db_username:movie_db_password@movie_db/movie_db_dev
       - CAST_SERVICE_HOST_URL=http://cast_service:8000/api/v1/casts/
     depends_on:
-      - movie_db
+      movie_db:
+        condition: service_healthy
+    restart: on-failure
 
   movie_db:
     image: postgres:12.1-alpine
@@ -22,6 +24,11 @@ services:
       - POSTGRES_USER=movie_db_username
       - POSTGRES_PASSWORD=movie_db_password
       - POSTGRES_DB=movie_db_dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U movie_db_username -d movie_db_dev"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
 
   cast_service:
     build: ./cast-service
@@ -33,7 +40,9 @@ services:
     environment:
       - DATABASE_URI=postgresql://cast_db_username:cast_db_password@cast_db/cast_db_dev
     depends_on:
-      - cast_db
+      cast_db:
+        condition: service_healthy
+    restart: on-failure
 
   cast_db:
     image: postgres:12.1-alpine
@@ -43,6 +52,11 @@ services:
       - POSTGRES_USER=cast_db_username
       - POSTGRES_PASSWORD=cast_db_password
       - POSTGRES_DB=cast_db_dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cast_db_username -d cast_db_dev"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
 
   nginx:
     image: nginx:latest
