@@ -78,7 +78,7 @@ pipeline {
         timeout(time: 1, unit: 'HOURS')   // если никто не подтвердит за час — билд прерывается
       }
       input {
-        message "Deploy ${IMAGE_TAG} to PRODUCTION?"
+        message 'Deploy to PRODUCTION?'
         ok 'Deploy'
       }
       steps { deployTo('prod') }
@@ -89,8 +89,8 @@ pipeline {
     always {
       sh 'docker image prune -f || true'   // чтобы диск VM не забился старыми слоями
     }
-    success { echo "Pipeline OK: ${IMAGE_TAG}" }
-    failure { echo "Pipeline FAILED: ${IMAGE_TAG}" }
+    success { echo "Pipeline OK: ${env.IMAGE_TAG}" }
+    failure { echo "Pipeline FAILED: ${env.IMAGE_TAG}" }
   }
 }
 
