@@ -1,6 +1,6 @@
 # helm upgrade --install movie-service charts/fastapiapp -n <env> -f values/movie-service.yaml --set image.tag=<BUILD_ID>
 image:
-  repository: DOCKERHUB_USER/movie-service   # <-- замени на свой логин Docker Hub
+  repository: aibutros/movie-service   # <-- замени на свой логин Docker Hub
 
 probePath: /api/v1/movies/docs
 
