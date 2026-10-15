@@ -1,0 +1,5 @@
+# helm upgrade --install cast-db charts/postgres -n <env> -f values/cast-db.yaml --set auth.password=...
+auth:
+  username: cast_db_username
+  database: cast_db_dev
+  # password: передаётся через --set auth.password=... (из Jenkins credentials)

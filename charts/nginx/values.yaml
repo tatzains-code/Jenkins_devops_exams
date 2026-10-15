@@ -1,0 +1,32 @@
+# API gateway. The only component exposed outside the cluster.
+
+image:
+  repository: nginx
+  tag: "1.27-alpine"
+  pullPolicy: IfNotPresent
+
+listenPort: 8080
+
+# Where nginx forwards requests (Kubernetes Service names in the same namespace)
+upstreams:
+  movies:
+    path: /api/v1/movies
+    host: movie-service
+    port: 8000
+  casts:
+    path: /api/v1/casts
+    host: cast-service
+    port: 8000
+
+service:
+  type: NodePort
+  port: 8080
+  nodePort: ""     # required, unique per environment: dev 30001, qa 30002, staging 30003, prod 30004
+
+resources:
+  requests:
+    cpu: 20m
+    memory: 32Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi

@@ -1,0 +1,5 @@
+# helm upgrade --install movie-db charts/postgres -n <env> -f values/movie-db.yaml --set auth.password=...
+auth:
+  username: movie_db_username
+  database: movie_db_dev
+  # password: передаётся через --set auth.password=... (из Jenkins credentials)

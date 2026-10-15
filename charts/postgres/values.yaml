@@ -1,0 +1,27 @@
+# Minimal single-instance PostgreSQL. Installed twice per namespace:
+#   helm upgrade --install movie-db charts/postgres -f values/movie-db.yaml
+#   helm upgrade --install cast-db  charts/postgres -f values/cast-db.yaml
+# The Service is named after the release (movie-db / cast-db), so that is the DB host.
+
+image:
+  repository: postgres
+  tag: "12.1-alpine"
+  pullPolicy: IfNotPresent
+
+auth:
+  username: ""     # required
+  password: ""     # required — better passed from Jenkins: --set auth.password=...
+  database: ""     # required
+
+persistence:
+  enabled: true
+  size: 1Gi
+  storageClass: local-path   # default StorageClass in k3s
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi

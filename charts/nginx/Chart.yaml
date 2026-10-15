@@ -1,0 +1,6 @@
+apiVersion: v2
+name: nginx
+description: Nginx API gateway in front of movie-service and cast-service
+type: application
+version: 0.1.0
+appVersion: "1.27"

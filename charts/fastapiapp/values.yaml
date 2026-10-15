@@ -1,0 +1,37 @@
+# Generic FastAPI service. Per-service settings live in values/<service>.yaml,
+# environment-specific ones (image.tag) are passed with --set from Jenkins.
+
+replicaCount: 1
+
+image:
+  repository: ""        # e.g. <dockerhub-user>/movie-service  (required)
+  tag: ""               # e.g. "42" = Jenkins BUILD_ID           (required)
+  pullPolicy: IfNotPresent
+
+containerPort: 8000
+
+service:
+  type: ClusterIP       # internal only; nginx is the single entry point
+  port: 8000
+
+# Plain environment variables
+env: []
+#  - name: CAST_SERVICE_HOST_URL
+#    value: http://cast-service:8000/api/v1/casts/
+
+# Variables taken from a Kubernetes Secret (e.g. DATABASE_URI from the postgres chart)
+secretEnv: []
+#  - name: DATABASE_URI
+#    secretName: movie-db-credentials
+#    key: DATABASE_URI
+
+# HTTP path used by readiness/liveness probes (FastAPI has no "/" route here)
+probePath: /docs
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi

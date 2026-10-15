@@ -1,0 +1,11 @@
+# helm upgrade --install nginx charts/nginx -n <env> -f values/nginx.yaml --set service.nodePort=<port>
+# NodePort по окружениям: dev 30001, qa 30002, staging 30003, prod 30004
+upstreams:
+  movies:
+    path: /api/v1/movies
+    host: movie-service
+    port: 8000
+  casts:
+    path: /api/v1/casts
+    host: cast-service
+    port: 8000

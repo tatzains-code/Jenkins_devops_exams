@@ -1,0 +1,14 @@
+# helm upgrade --install movie-service charts/fastapiapp -n <env> -f values/movie-service.yaml --set image.tag=<BUILD_ID>
+image:
+  repository: DOCKERHUB_USER/movie-service   # <-- замени на свой логин Docker Hub
+
+probePath: /api/v1/movies/docs
+
+env:
+  - name: CAST_SERVICE_HOST_URL
+    value: http://cast-service:8000/api/v1/casts/
+
+secretEnv:
+  - name: DATABASE_URI
+    secretName: movie-db-credentials   # создаётся chart'ом postgres (release movie-db)
+    key: DATABASE_URI

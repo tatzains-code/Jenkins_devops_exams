@@ -1,0 +1,10 @@
+# helm upgrade --install cast-service charts/fastapiapp -n <env> -f values/cast-service.yaml --set image.tag=<BUILD_ID>
+image:
+  repository: DOCKERHUB_USER/cast-service    # <-- замени на свой логин Docker Hub
+
+probePath: /api/v1/casts/docs
+
+secretEnv:
+  - name: DATABASE_URI
+    secretName: cast-db-credentials    # создаётся chart'ом postgres (release cast-db)
+    key: DATABASE_URI
